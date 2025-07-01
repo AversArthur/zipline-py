@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -H "authorization: MTc1MDYwNTExMzQ0NQ==.Yjc2NjFkYjNiZjY2ZGMxMzIxOTZiMmU2Y2UzN2JjNzUuODVmM2Q3NjVlZGEwOGMyZjE5ODY0YjhiM2UzNmExZGFmMDE4NWQ5MjgwZGYyYTEyY2MzZTRlZmZlMTk3NmNkZjRmNjIxMTU1YTBkMDJhYzA3NjMyOTA1ZGFiZDU3Y2YwOTZiYjZlZTA0M2IyNWEzNzQwZGQyZGJjMzE1ZWY2NzYzMzk3MmNlODE3NzYxN2Q2NTc0NTY4MzYzZWY5M2I5MQ==" https://files.arturavers.com/api/user/urls -H 'content-type: application/json' -H "x-zipline-domain: files.arturavers.com" -d "{\"destination\": \"$1\"}" | jq -r .url | pbcopy
