@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Загрузить переменные из .env, если файл существует
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [ -f "$SCRIPT_DIR/.env" ]; then
-  export $(grep -v '^#' "$SCRIPT_DIR/.env" | xargs)
-fi
-
 # --- Модернизированный скрипт для загрузки изображения из буфера обмена ---
 # Требование: утилита pngpaste (установка: brew install pngpaste)
 
@@ -28,12 +22,11 @@ fi
 
 # 3. Загружаем временный файл на Zipline.
 UPLOAD_RESULT=$(curl -s \
-     -H "authorization: ${ZIPLINE_TOKEN}" \
+     -H "authorization: MTc1MTM4NTIyMzE0NQ==.YWNmNzM5YjA5ZGE4YjRkMjMwNWI2MmZkYTBhNzA0MWYuN2QxOTk2MTY3NmJhODM4N2E1OThlOTNjNWM1ODEwZGM3NDZlMjE2ODUwMWY1Y2JhYzdhZmRhNDE4ZGUxM2JhNWUwODE0NDZmM2JiOGE1ZWRjZWM0YTFkNTUxMTFhNjkzNmU3NDY0ZmMxNTZkN2YzY2ZjMGU5Mzg0MjdmMmY3YWVhYmY0YjkzMjQyNmFjMGQ1ZjI5OGQwNTkyMWEyMmNhZQ==" \
      -H "x-zipline-format: uuid" \
      -H "x-zipline-domain: files.arturavers.com" \
      -F "file=@$TMP_FILE;type=image/png" \
      https://files.arturavers.com/api/upload)
-
 
 # 4. Обрабатываем результат.
 #    Сначала получаем URL из ответа сервера с помощью jq.
@@ -43,7 +36,7 @@ LONG_URL=$(echo "$UPLOAD_RESULT" | jq -r .files[0].url)
 if [[ "$LONG_URL" == "http"* ]]; then
     # 2. Получаем короткую ссылку
     SHORT_URL=$(curl -s \
-        -H "authorization: ${ZIPLINE_TOKEN}" \
+        -H "authorization: MTc1MTM4NTIyMzE0NQ==.YWNmNzM5YjA5ZGE4YjRkMjMwNWI2MmZkYTBhNzA0MWYuN2QxOTk2MTY3NmJhODM4N2E1OThlOTNjNWM1ODEwZGM3NDZlMjE2ODUwMWY1Y2JhYzdhZmRhNDE4ZGUxM2JhNWUwODE0NDZmM2JiOGE1ZWRjZWM0YTFkNTUxMTFhNjkzNmU3NDY0ZmMxNTZkN2YzY2ZjMGU5Mzg0MjdmMmY3YWVhYmY0YjkzMjQyNmFjMGQ1ZjI5OGQwNTkyMWEyMmNhZQ==" \
         https://files.arturavers.com/api/user/urls \
         -H 'content-type: application/json' \
         -H "x-zipline-domain: files.arturavers.com" \
